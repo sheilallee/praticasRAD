@@ -1,0 +1,82 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}Lista de Livros{% endblock %}
+
+{% block content %}
+    <section style="max-width: 950px; margin: 0 auto;">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom: 1rem;">
+            <div>
+                <h1>📚 Lista de Livros</h1>
+                <p><strong>Total de livros:</strong> {{ paginator.count }} | <strong>Página {{ livros.number }}</strong> de <strong>{{ paginator.num_pages }}</strong></p>
+            </div>
+            {% if request.user.is_authenticated %}
+                <a href="{% url 'livro_criar' %}" style="padding: 10px 16px; background:#007bff; color:#fff; border-radius:5px; text-decoration:none;">Novo Livro</a>
+            {% else %}
+                <a href="{% url 'login' %}" style="padding: 10px 16px; background:#28a745; color:#fff; border-radius:5px; text-decoration:none;">Entrar para criar</a>
+            {% endif %}
+        </div>
+
+        {% if livros %}
+            <table style="width:100%; border-collapse:collapse; background:#fff; box-shadow:0 2px 4px rgba(0,0,0,0.08);">
+                <thead style="background:#007bff; color:#fff;">
+                    <tr>
+                        <th style="padding:12px; text-align:left;">ISBN</th>
+                        <th style="padding:12px; text-align:left;">Título</th>
+                        <th style="padding:12px; text-align:left;">Editora</th>
+                        <th style="padding:12px; text-align:left;">Publicação</th>
+                        <th style="padding:12px; text-align:left;">Preço</th>
+                        <th style="padding:12px; text-align:left;">Estoque</th>
+                        {% if request.user.is_authenticated %}<th style="padding:12px; text-align:left;">Ações</th>{% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for livro in livros %}
+                        <tr style="border-bottom:1px solid #eee;">
+                            <td style="padding:12px;">{{ livro.isbn }}</td>
+                            <td style="padding:12px;">{{ livro.titulo }}</td>
+                            <td style="padding:12px;">{{ livro.editora.nome }}</td>
+                            <td style="padding:12px;">{{ livro.publicacao|date:"d/m/Y" }}</td>
+                            <td style="padding:12px; color:#28a745; font-weight:bold;">R$ {{ livro.preco|floatformat:2 }}</td>
+                            <td style="padding:12px;">{{ livro.estoque }}</td>
+                            {% if request.user.is_authenticated %}
+                                <td style="padding:12px;"><a href="{% url 'livro_editar' livro.pk %}" style="color:#007bff; text-decoration:none;">Editar</a></td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            {% if paginator.num_pages > 1 %}
+                <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin-top:20px;">
+                    {% if livros.has_previous %}
+                        <a href="?page=1" style="padding:8px 12px; border:1px solid #ddd; border-radius:4px; color:#007bff; text-decoration:none;">&laquo; Primeira</a>
+                        <a href="?page={{ livros.previous_page_number }}" style="padding:8px 12px; border:1px solid #ddd; border-radius:4px; color:#007bff; text-decoration:none;">← Anterior</a>
+                    {% else %}
+                        <span style="padding:8px 12px; border:1px solid #ddd; border-radius:4px; color:#ccc;">&laquo; Primeira</span>
+                        <span style="padding:8px 12px; border:1px solid #ddd; border-radius:4px; color:#ccc;">← Anterior</span>
+                    {% endif %}
+
+                    {% for num in paginator.page_range %}
+                        {% if num == livros.number %}
+                            <span style="padding:8px 12px; border-radius:4px; background:#007bff; color:#fff;">{{ num }}</span>
+                        {% else %}
+                            <a href="?page={{ num }}" style="padding:8px 12px; border:1px solid #ddd; border-radius:4px; color:#007bff; text-decoration:none;">{{ num }}</a>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if livros.has_next %}
+                        <a href="?page={{ livros.next_page_number }}" style="padding:8px 12px; border:1px solid #ddd; border-radius:4px; color:#007bff; text-decoration:none;">Próxima →</a>
+                        <a href="?page={{ paginator.num_pages }}" style="padding:8px 12px; border:1px solid #ddd; border-radius:4px; color:#007bff; text-decoration:none;">Última &raquo;</a>
+                    {% else %}
+                        <span style="padding:8px 12px; border:1px solid #ddd; border-radius:4px; color:#ccc;">Próxima →</span>
+                        <span style="padding:8px 12px; border:1px solid #ddd; border-radius:4px; color:#ccc;">Última &raquo;</span>
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% else %}
+            <div style="background:#e7f3ff; padding:16px; border-left:4px solid #007bff; border-radius:4px;">
+                ℹ️ Nenhum livro encontrado. Rode o comando para gerar dados!
+            </div>
+        {% endif %}
+    </section>
+{% endblock %}

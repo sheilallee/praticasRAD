@@ -1,0 +1,20 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}Cadastro{% endblock %}
+
+{% block content %}
+    <section style="max-width: 520px; margin: 2rem auto; background:#fff; padding:2rem; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.08);">
+        <h1>Cadastrar Usuário</h1>
+        {% if messages %}
+            {% for message in messages %}
+                <div style="margin:1rem 0; padding:12px; border-radius:5px; background:#e7f3ff; color:#0d3b66;">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        <form method="post" novalidate>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" style="padding:10px 18px; background:#28a745; color:#fff; border:none; border-radius:6px; cursor:pointer;">Cadastrar</button>
+        </form>
+        <p style="margin-top:1rem;">Já tem conta? <a href="{% url 'login' %}">Entrar</a></p>
+    </section>
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}Home - Prática Django DTL{% endblock %}
+
+{% block content %}
+    <!-- Variáveis no template -->
+    <section>
+        <h1>Olá, {{ nome_usuario }}!</h1>
+        <p><strong>Data e hora atual:</strong> {{ now|date:"d/m/Y H:i:s" }}</p>
+    </section>
+
+    <hr>
+
+    <!-- Condicionais (if) -->
+    <section>
+        <h2>Status de Login</h2>
+        {% if is_logged_in %}
+            <div class="alert alert-success">
+                Bem-vindo de volta!
+            </div>
+        {% else %}
+            <div class="alert alert-warning">
+                Faça login para continuar.
+            </div>
+        {% endif %}
+
+        <h3>Perfil do Usuário</h3>
+        {% if role == 'admin' %}
+            <div class="alert alert-success">
+                <strong>🔐 Administrador:</strong> Você tem acesso total ao sistema.
+            </div>
+        {% elif role == 'user' %}
+            <div class="alert alert-warning">
+                <strong>👤 Usuário:</strong> Você tem acesso limitado.
+            </div>
+        {% else %}
+            <div class="alert alert-warning">
+                <strong>⚠️ Visitante:</strong> Registre-se para ter mais funcionalidades.
+            </div>
+        {% endif %}
+    </section>
+
+    <hr>
+
+    <!-- Loops (for) -->
+    <section>
+        <h2>Produtos Disponíveis</h2>
+        {% if produtos %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nome do Produto</th>
+                        <th>Preço</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for produto in produtos %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ produto.nome }}</td>
+                            <td>R$ {{ produto.preco }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Nenhum produto disponível no momento.</p>
+        {% endif %}
+    </section>
+
+    <hr>
+
+    <!-- URLs (url tag) -->
+    <section>
+        <h2>Navegação</h2>
+        <p>Use os links abaixo para navegar:</p>
+        <ul>
+            <li><a href="{% url 'home' %}">Ir para Home</a></li>
+            <li><a href="{% url 'contato' telefone='8332220000' %}">Contato (83) 3222-0000</a></li>
+            <li><a href="{% url 'contato' telefone='8332221111' %}">Contato (83) 3222-1111</a></li>
+        </ul>
+    </section>
+{% endblock %}

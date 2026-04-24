@@ -1,0 +1,84 @@
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login, logout
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib import messages
+from django.core.paginator import Paginator
+from .models import Livro
+from .forms import LivroForm
+
+
+def listar_livros(request):
+    """
+    View que lista os livros com paginação (10 livros por página).
+    """
+    livros_lista = Livro.objects.all().order_by('titulo')
+    paginator = Paginator(livros_lista, 10)
+    numero_pagina = request.GET.get('page', 1)
+    livros = paginator.get_page(numero_pagina)
+
+    contexto = {
+        'livros': livros,
+        'paginator': paginator,
+        'numero_pagina': numero_pagina,
+    }
+    return render(request, 'edu/listar_livros.html', contexto)
+
+@login_required(login_url='login')
+def livro_criar(request):
+    if request.method == 'POST':
+        form = LivroForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Livro criado com sucesso!')
+            return redirect('listar_livros')
+    else:
+        form = LivroForm()
+
+    return render(request, 'edu/livro_form.html', {'form': form, 'titulo_pagina': 'Cadastrar Livro'})
+
+@login_required(login_url='login')
+def livro_editar(request, pk):
+    livro = get_object_or_404(Livro, pk=pk)
+    if request.method == 'POST':
+        form = LivroForm(request.POST, instance=livro)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Livro atualizado com sucesso!')
+            return redirect('listar_livros')
+    else:
+        form = LivroForm(instance=livro)
+
+    return render(request, 'edu/livro_form.html', {'form': form, 'titulo_pagina': 'Editar Livro'})
+
+
+def signup_view(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            messages.success(request, 'Cadastro realizado com sucesso!')
+            return redirect('listar_livros')
+    else:
+        form = UserCreationForm()
+    return render(request, 'edu/signup.html', {'form': form})
+
+
+def login_view(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request=request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            messages.success(request, 'Login realizado com sucesso!')
+            return redirect(request.GET.get('next', 'listar_livros'))
+    else:
+        form = AuthenticationForm()
+    return render(request, 'edu/login.html', {'form': form})
+
+
+def logout_view(request):
+    logout(request)
+    messages.success(request, 'Logout realizado com sucesso!')
+    return redirect('home')

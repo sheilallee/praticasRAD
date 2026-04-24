@@ -1,0 +1,55 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}Contato - Prática Django DTL{% endblock %}
+
+{% block content %}
+    <section>
+        <h1>Entre em Contato</h1>
+        
+        <div style="background: #f8f9fa; padding: 2rem; border-radius: 8px; margin: 2rem 0;">
+            <h2>Informações de Contato</h2>
+            
+            <!-- Telefone parametrizado na URL -->
+            <p><strong>📞 Telefone:</strong> {{ telefone_formatado }}</p>
+            
+            <p><strong>📧 Email:</strong> contato@meublog.com</p>
+            
+            <p><strong>📍 Endereço:</strong> Rua Django, 123 - Python City</p>
+        </div>
+
+        <div style="border-left: 4px solid #333; padding-left: 1rem; margin: 2rem 0;">
+            <h3>Horário de Atendimento</h3>
+            <ul>
+                <li>Segunda a Sexta: 9h às 18h</li>
+                <li>Sábado: 9h às 13h</li>
+                <li>Domingo: Fechado</li>
+            </ul>
+        </div>
+
+        <div>
+            <h3>Formulário de Contato</h3>
+            <form method="post" style="max-width: 500px;">
+                {% csrf_token %}
+                <div style="margin-bottom: 1rem;">
+                    <label for="nome">Nome:</label><br>
+                    <input type="text" id="nome" name="nome" style="width: 100%; padding: 0.5rem;" required>
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <label for="email">Email:</label><br>
+                    <input type="email" id="email" name="email" style="width: 100%; padding: 0.5rem;" required>
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <label for="mensagem">Mensagem:</label><br>
+                    <textarea id="mensagem" name="mensagem" rows="5" style="width: 100%; padding: 0.5rem;" required></textarea>
+                </div>
+                <button type="submit" style="background: #333; color: white; padding: 0.75rem 2rem; border: none; cursor: pointer;">
+                    Enviar Mensagem
+                </button>
+            </form>
+        </div>
+
+        <div style="margin-top: 2rem;">
+            <a href="{% url 'home' %}" style="color: #333; text-decoration: none; font-weight: bold;">← Voltar para Home</a>
+        </div>
+    </section>
+{% endblock %}
