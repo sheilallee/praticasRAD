@@ -1,0 +1,18 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}Remover Livro{% endblock %}
+
+{% block content %}
+    <section style="max-width: 620px; margin: 2rem auto; background:#fff; padding:2rem; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.08);">
+        <h1>Remover Livro</h1>
+        <p>Tem certeza de que deseja remover o livro <strong>{{ livro.titulo }}</strong> (ISBN: {{ livro.isbn }})?</p>
+        <p>Esta ação não pode ser desfeita.</p>
+        <form method="post">
+            {% csrf_token %}
+            <div style="display:flex; gap:12px; margin-top:1.5rem;">
+                <button type="submit" style="padding:10px 18px; background:#dc3545; color:#fff; border:none; border-radius:6px; cursor:pointer;">Confirmar remoção</button>
+                <a href="{% url 'listar_livros' %}" style="padding:10px 18px; background:#ccc; color:#000; border-radius:6px; text-decoration:none;">Cancelar</a>
+            </div>
+        </form>
+    </section>
+{% endblock %}

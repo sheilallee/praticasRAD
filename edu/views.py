@@ -26,6 +26,10 @@ def listar_livros(request):
 
 @login_required(login_url='login')
 def livro_criar(request):
+    if not request.user.has_perm('edu.add_livro'):
+        messages.error(request, 'Você não tem permissão para cadastrar livros.')
+        return redirect('listar_livros')
+
     if request.method == 'POST':
         form = LivroForm(request.POST)
         if form.is_valid():
@@ -39,6 +43,10 @@ def livro_criar(request):
 
 @login_required(login_url='login')
 def livro_editar(request, pk):
+    if not request.user.has_perm('edu.change_livro'):
+        messages.error(request, 'Você não tem permissão para editar livros.')
+        return redirect('listar_livros')
+
     livro = get_object_or_404(Livro, pk=pk)
     if request.method == 'POST':
         form = LivroForm(request.POST, instance=livro)
@@ -50,6 +58,20 @@ def livro_editar(request, pk):
         form = LivroForm(instance=livro)
 
     return render(request, 'edu/livro_form.html', {'form': form, 'titulo_pagina': 'Editar Livro'})
+
+@login_required(login_url='login')
+def livro_remover(request, pk):
+    if not request.user.has_perm('edu.delete_livro'):
+        messages.error(request, 'Você não tem permissão para remover livros.')
+        return redirect('listar_livros')
+
+    livro = get_object_or_404(Livro, pk=pk)
+    if request.method == 'POST':
+        livro.delete()
+        messages.success(request, 'Livro removido com sucesso!')
+        return redirect('listar_livros')
+
+    return render(request, 'edu/livro_confirm_delete.html', {'livro': livro})
 
 
 def signup_view(request):
