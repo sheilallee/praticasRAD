@@ -6,6 +6,16 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from .models import Livro
 from .forms import LivroForm
+from .constants import ANALISTAS_GROUP_NAME
+
+
+def _usuario_no_grupo_analistas(user):
+    return user.is_authenticated and user.groups.filter(name=ANALISTAS_GROUP_NAME).exists()
+
+
+def _usuario_pode_gerenciar_livro(user, permissao):
+    # Regra estrita: precisa pertencer ao grupo de analistas e ter a permissao especifica.
+    return _usuario_no_grupo_analistas(user) and user.has_perm(permissao)
 
 
 def listar_livros(request):
@@ -21,12 +31,15 @@ def listar_livros(request):
         'livros': livros,
         'paginator': paginator,
         'numero_pagina': numero_pagina,
+        'can_add_livro': _usuario_pode_gerenciar_livro(request.user, 'edu.add_livro'),
+        'can_change_livro': _usuario_pode_gerenciar_livro(request.user, 'edu.change_livro'),
+        'can_delete_livro': _usuario_pode_gerenciar_livro(request.user, 'edu.delete_livro'),
     }
     return render(request, 'edu/listar_livros.html', contexto)
 
 @login_required(login_url='login')
 def livro_criar(request):
-    if not request.user.has_perm('edu.add_livro'):
+    if not _usuario_pode_gerenciar_livro(request.user, 'edu.add_livro'):
         messages.error(request, 'Você não tem permissão para cadastrar livros.')
         return redirect('listar_livros')
 
@@ -43,7 +56,7 @@ def livro_criar(request):
 
 @login_required(login_url='login')
 def livro_editar(request, pk):
-    if not request.user.has_perm('edu.change_livro'):
+    if not _usuario_pode_gerenciar_livro(request.user, 'edu.change_livro'):
         messages.error(request, 'Você não tem permissão para editar livros.')
         return redirect('listar_livros')
 
@@ -61,7 +74,7 @@ def livro_editar(request, pk):
 
 @login_required(login_url='login')
 def livro_remover(request, pk):
-    if not request.user.has_perm('edu.delete_livro'):
+    if not _usuario_pode_gerenciar_livro(request.user, 'edu.delete_livro'):
         messages.error(request, 'Você não tem permissão para remover livros.')
         return redirect('listar_livros')
 

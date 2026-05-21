@@ -9,7 +9,7 @@
                 <h1>📚 Lista de Livros</h1>
                 <p><strong>Total de livros:</strong> {{ paginator.count }} | <strong>Página {{ livros.number }}</strong> de <strong>{{ paginator.num_pages }}</strong></p>
             </div>
-            {% if request.user.is_authenticated and request.user.has_perm('edu.add_livro') %}
+            {% if can_add_livro %}
                 <a href="{% url 'livro_criar' %}" style="padding: 10px 16px; background:#007bff; color:#fff; border-radius:5px; text-decoration:none;">Novo Livro</a>
             {% elif request.user.is_authenticated %}
                 <span style="padding: 10px 16px; background:#6c757d; color:#fff; border-radius:5px;">Apenas analistas podem cadastrar</span>
@@ -28,7 +28,7 @@
                         <th style="padding:12px; text-align:left;">Publicação</th>
                         <th style="padding:12px; text-align:left;">Preço</th>
                         <th style="padding:12px; text-align:left;">Estoque</th>
-                        {% if request.user.is_authenticated %}<th style="padding:12px; text-align:left;">Ações</th>{% endif %}
+                        {% if can_change_livro or can_delete_livro %}<th style="padding:12px; text-align:left;">Ações</th>{% endif %}
                     </tr>
                 </thead>
                 <tbody>
@@ -40,12 +40,12 @@
                             <td style="padding:12px;">{{ livro.publicacao|date:"d/m/Y" }}</td>
                             <td style="padding:12px; color:#28a745; font-weight:bold;">R$ {{ livro.preco|floatformat:2 }}</td>
                             <td style="padding:12px;">{{ livro.estoque }}</td>
-                            {% if request.user.is_authenticated and (request.user.has_perm('edu.change_livro') or request.user.has_perm('edu.delete_livro')) %}
+                            {% if can_change_livro or can_delete_livro %}
                                 <td style="padding:12px;">
-                                    {% if request.user.has_perm('edu.change_livro') %}
+                                    {% if can_change_livro %}
                                         <a href="{% url 'livro_editar' livro.pk %}" style="color:#007bff; text-decoration:none; margin-right:10px;">Editar</a>
                                     {% endif %}
-                                    {% if request.user.has_perm('edu.delete_livro') %}
+                                    {% if can_delete_livro %}
                                         <a href="{% url 'livro_remover' livro.pk %}" style="color:#dc3545; text-decoration:none;">Remover</a>
                                     {% endif %}
                                 </td>

@@ -1,0 +1,1 @@
+ANALISTAS_GROUP_NAME = 'Analistas de Cadastro de Produtos'

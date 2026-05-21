@@ -1,4 +1,5 @@
 from django.apps import AppConfig
+from .constants import ANALISTAS_GROUP_NAME
 
 
 class EduConfig(AppConfig):
@@ -14,8 +15,7 @@ class EduConfig(AppConfig):
             livro_ct = ContentType.objects.get_for_model(Livro)
             permission_codenames = ['add_livro', 'change_livro', 'delete_livro']
             permissions = Permission.objects.filter(content_type=livro_ct, codename__in=permission_codenames)
-            group, created = Group.objects.get_or_create(name='Analistas de Cadastro de Produtos')
+            group, created = Group.objects.get_or_create(name=ANALISTAS_GROUP_NAME)
             group.permissions.set(permissions)
         except Exception:
-            # O banco de dados pode não estar pronto no momento da inicialização.
             pass
