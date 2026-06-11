@@ -7,6 +7,7 @@ from django.core.paginator import Paginator
 from .models import Livro
 from .forms import LivroForm
 from .constants import ANALISTAS_GROUP_NAME
+from django.utils.translation import gettext as _
 
 
 def _usuario_no_grupo_analistas(user):
@@ -40,24 +41,24 @@ def listar_livros(request):
 @login_required(login_url='login')
 def livro_criar(request):
     if not _usuario_pode_gerenciar_livro(request.user, 'edu.add_livro'):
-        messages.error(request, 'Você não tem permissão para cadastrar livros.')
+        messages.error(request, _('Você não tem permissão para cadastrar livros.'))
         return redirect('listar_livros')
 
     if request.method == 'POST':
         form = LivroForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Livro criado com sucesso!')
+            messages.success(request, _('Livro criado com sucesso!'))
             return redirect('listar_livros')
     else:
         form = LivroForm()
 
-    return render(request, 'edu/livro_form.html', {'form': form, 'titulo_pagina': 'Cadastrar Livro'})
+    return render(request, 'edu/livro_form.html', {'form': form, 'titulo_pagina': _('Cadastrar Livro')})
 
 @login_required(login_url='login')
 def livro_editar(request, pk):
     if not _usuario_pode_gerenciar_livro(request.user, 'edu.change_livro'):
-        messages.error(request, 'Você não tem permissão para editar livros.')
+        messages.error(request, _('Você não tem permissão para editar livros.'))
         return redirect('listar_livros')
 
     livro = get_object_or_404(Livro, pk=pk)
@@ -65,23 +66,23 @@ def livro_editar(request, pk):
         form = LivroForm(request.POST, instance=livro)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Livro atualizado com sucesso!')
+            messages.success(request, _('Livro atualizado com sucesso!'))
             return redirect('listar_livros')
     else:
         form = LivroForm(instance=livro)
 
-    return render(request, 'edu/livro_form.html', {'form': form, 'titulo_pagina': 'Editar Livro'})
+    return render(request, 'edu/livro_form.html', {'form': form, 'titulo_pagina': _('Editar Livro')})
 
 @login_required(login_url='login')
 def livro_remover(request, pk):
     if not _usuario_pode_gerenciar_livro(request.user, 'edu.delete_livro'):
-        messages.error(request, 'Você não tem permissão para remover livros.')
+        messages.error(request, _('Você não tem permissão para remover livros.'))
         return redirect('listar_livros')
 
     livro = get_object_or_404(Livro, pk=pk)
     if request.method == 'POST':
         livro.delete()
-        messages.success(request, 'Livro removido com sucesso!')
+        messages.success(request, _('Livro removido com sucesso!'))
         return redirect('listar_livros')
 
     return render(request, 'edu/livro_confirm_delete.html', {'livro': livro})
@@ -93,7 +94,7 @@ def signup_view(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            messages.success(request, 'Cadastro realizado com sucesso!')
+            messages.success(request, _('Cadastro realizado com sucesso!'))
             return redirect('listar_livros')
     else:
         form = UserCreationForm()
@@ -106,7 +107,7 @@ def login_view(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            messages.success(request, 'Login realizado com sucesso!')
+            messages.success(request, _('Login realizado com sucesso!'))
             return redirect(request.GET.get('next', 'listar_livros'))
     else:
         form = AuthenticationForm()
@@ -115,5 +116,5 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    messages.success(request, 'Logout realizado com sucesso!')
+    messages.success(request, _('Logout realizado com sucesso!'))
     return redirect('home')

@@ -1,0 +1,177 @@
+# Translation file for English (en)
+# Generated manually as an example. Run `django-admin makemessages` to create/update.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2026-06-11 00:00+0000\n"
+"PO-Revision-Date: 2026-06-11 00:00+0000\n"
+"Last-Translator: You <you@example.com>\n"
+"Language-Team: English\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: edu/templates/edu/livro_form.html:12
+msgid "Salvar"
+msgstr "Save"
+
+#: edu/templates/edu/livro_form.html:13
+msgid "Cancelar"
+msgstr "Cancel"
+
+#: edu/templates/edu/listar_livros.html:8
+msgid "Lista de Livros"
+msgstr "Book List"
+
+#: edu/templates/edu/listar_livros.html:12
+msgid "Total de livros:"
+msgstr "Total books:"
+
+#: edu/templates/edu/listar_livros.html:22
+msgid "Novo Livro"
+msgstr "New Book"
+
+#: edu/templates/edu/listar_livros.html:34
+msgid "ISBN"
+msgstr "ISBN"
+
+#: edu/templates/edu/listar_livros.html:35
+msgid "Título"
+msgstr "Title"
+
+#: edu/templates/edu/listar_livros.html:36
+msgid "Editora"
+msgstr "Publisher"
+
+#: edu/templates/edu/listar_livros.html:37
+msgid "Publicação"
+msgstr "Publication"
+
+#: edu/templates/edu/listar_livros.html:38
+msgid "Preço"
+msgstr "Price"
+
+#: edu/templates/edu/listar_livros.html:39
+msgid "Estoque"
+msgstr "Stock"
+
+#: edu/templates/edu/listar_livros.html:40
+msgid "Ações"
+msgstr "Actions"
+
+#: edu/templates/edu/listar_livros.html:56
+msgid "Editar"
+msgstr "Edit"
+
+#: edu/templates/edu/listar_livros.html:60
+msgid "Remover"
+msgstr "Remove"
+
+#: edu/views.py:43
+msgid "Você não tem permissão para cadastrar livros."
+msgstr "You do not have permission to add books."
+
+#: edu/views.py:49
+msgid "Livro criado com sucesso!"
+msgstr "Book created successfully!"
+
+#: edu/views.py:74
+msgid "Você não tem permissão para editar livros."
+msgstr "You do not have permission to edit books."
+
+#: edu/views.py:82
+msgid "Livro atualizado com sucesso!"
+msgstr "Book updated successfully!"
+
+#: edu/views.py:103
+msgid "Você não tem permissão para remover livros."
+msgstr "You do not have permission to delete books."
+
+#: edu/views.py:112
+msgid "Livro removido com sucesso!"
+msgstr "Book removed successfully!"
+
+#: edu/views.py:127
+msgid "Cadastro realizado com sucesso!"
+msgstr "Signup successful!"
+
+#: edu/views.py:141
+msgid "Login realizado com sucesso!"
+msgstr "Login successful!"
+
+#: edu/views.py:147
+msgid "Logout realizado com sucesso!"
+msgstr "Logout successful!"
+
+#: edu/templates/edu/livro_confirm_delete.html:6
+msgid "Remover Livro"
+msgstr "Remove Book"
+
+#: edu/templates/edu/livro_confirm_delete.html:8
+msgid "Esta ação não pode ser desfeita."
+msgstr "This action cannot be undone."
+
+#: edu/templates/edu/livro_confirm_delete.html:12
+msgid "Confirmar remoção"
+msgstr "Confirm removal"
+
+#: edu/templates/edu/login.html:9
+msgid "Entrar"
+msgstr "Sign in"
+
+#: edu/templates/edu/login.html:28
+msgid "Usuário"
+msgstr "Username"
+
+#: edu/templates/edu/login.html:41
+msgid "Senha"
+msgstr "Password"
+
+#: edu/templates/edu/login.html:63
+msgid "Ainda não tem conta?"
+msgstr "Don't have an account yet?"
+
+#: edu/templates/edu/login.html:63
+msgid "Cadastre-se aqui"
+msgstr "Sign up here"
+
+#: edu/templates/edu/signup.html:9
+msgid "Cadastrar Usuário"
+msgstr "Register User"
+
+#: edu/templates/edu/signup.html:30
+msgid "Confirmar Senha"
+msgstr "Confirm Password"
+
+#: blog/templates/blog/base.html:12
+msgid "Django Templates - Prática"
+msgstr "Django Templates - Practice"
+
+#: blog/templates/blog/base.html:14
+msgid "Home"
+msgstr "Home"
+
+#: blog/templates/blog/base.html:15
+msgid "Livros"
+msgstr "Books"
+
+#: blog/templates/blog/base.html:16
+msgid "Contato"
+msgstr "Contact"
+
+#: blog/templates/blog/base.html:27
+msgid "Sair"
+msgstr "Logout"
+
+#: blog/templates/blog/base.html:29
+msgid "Entrar"
+msgstr "Login"
+
+#: blog/templates/blog/base.html:30
+msgid "Cadastrar"
+msgstr "Sign up"
+
+#: blog/templates/blog/base.html:46
+msgid "Blog Django - RAD - Desenvolvido com Django e DTL"
+msgstr "Django Blog - RAD - Built with Django and DTL"

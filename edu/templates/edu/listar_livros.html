@@ -1,20 +1,21 @@
 {% extends 'blog/base.html' %}
+{% load i18n %}
 
-{% block title %}Lista de Livros{% endblock %}
+{% block title %}{% trans "Lista de Livros" %}{% endblock %}
 
 {% block content %}
     <section style="max-width: 950px; margin: 0 auto;">
         <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom: 1rem;">
             <div>
-                <h1>📚 Lista de Livros</h1>
-                <p><strong>Total de livros:</strong> {{ paginator.count }} | <strong>Página {{ livros.number }}</strong> de <strong>{{ paginator.num_pages }}</strong></p>
+                <h1>📚 {% trans "Lista de Livros" %}</h1>
+                <p><strong>{% trans "Total de livros:" %}</strong> {{ paginator.count }} | <strong>{% trans "Página" %} {{ livros.number }}</strong> {% trans "de" %} <strong>{{ paginator.num_pages }}</strong></p>
             </div>
             {% if can_add_livro %}
-                <a href="{% url 'livro_criar' %}" style="padding: 10px 16px; background:#007bff; color:#fff; border-radius:5px; text-decoration:none;">Novo Livro</a>
+                <a href="{% url 'livro_criar' %}" style="padding: 10px 16px; background:#007bff; color:#fff; border-radius:5px; text-decoration:none;">{% trans "Novo Livro" %}</a>
             {% elif request.user.is_authenticated %}
-                <span style="padding: 10px 16px; background:#6c757d; color:#fff; border-radius:5px;">Apenas analistas podem cadastrar</span>
+                <span style="padding: 10px 16px; background:#6c757d; color:#fff; border-radius:5px;">{% trans "Apenas analistas podem cadastrar" %}</span>
             {% else %}
-                <a href="{% url 'login' %}" style="padding: 10px 16px; background:#28a745; color:#fff; border-radius:5px; text-decoration:none;">Entrar para criar</a>
+                <a href="{% url 'login' %}" style="padding: 10px 16px; background:#28a745; color:#fff; border-radius:5px; text-decoration:none;">{% trans "Entrar para criar" %}</a>
             {% endif %}
         </div>
 
@@ -22,13 +23,13 @@
             <table style="width:100%; border-collapse:collapse; background:#fff; box-shadow:0 2px 4px rgba(0,0,0,0.08);">
                 <thead style="background:#007bff; color:#fff;">
                     <tr>
-                        <th style="padding:12px; text-align:left;">ISBN</th>
-                        <th style="padding:12px; text-align:left;">Título</th>
-                        <th style="padding:12px; text-align:left;">Editora</th>
-                        <th style="padding:12px; text-align:left;">Publicação</th>
-                        <th style="padding:12px; text-align:left;">Preço</th>
-                        <th style="padding:12px; text-align:left;">Estoque</th>
-                        {% if can_change_livro or can_delete_livro %}<th style="padding:12px; text-align:left;">Ações</th>{% endif %}
+                        <th style="padding:12px; text-align:left;">{% trans "ISBN" %}</th>
+                        <th style="padding:12px; text-align:left;">{% trans "Título" %}</th>
+                        <th style="padding:12px; text-align:left;">{% trans "Editora" %}</th>
+                        <th style="padding:12px; text-align:left;">{% trans "Publicação" %}</th>
+                        <th style="padding:12px; text-align:left;">{% trans "Preço" %}</th>
+                        <th style="padding:12px; text-align:left;">{% trans "Estoque" %}</th>
+                        {% if can_change_livro or can_delete_livro %}<th style="padding:12px; text-align:left;">{% trans "Ações" %}</th>{% endif %}
                     </tr>
                 </thead>
                 <tbody>
@@ -43,10 +44,10 @@
                             {% if can_change_livro or can_delete_livro %}
                                 <td style="padding:12px;">
                                     {% if can_change_livro %}
-                                        <a href="{% url 'livro_editar' livro.pk %}" style="color:#007bff; text-decoration:none; margin-right:10px;">Editar</a>
+                                        <a href="{% url 'livro_editar' livro.pk %}" style="color:#007bff; text-decoration:none; margin-right:10px;">{% trans "Editar" %}</a>
                                     {% endif %}
                                     {% if can_delete_livro %}
-                                        <a href="{% url 'livro_remover' livro.pk %}" style="color:#dc3545; text-decoration:none;">Remover</a>
+                                        <a href="{% url 'livro_remover' livro.pk %}" style="color:#dc3545; text-decoration:none;">{% trans "Remover" %}</a>
                                     {% endif %}
                                 </td>
                             {% endif %}
@@ -58,11 +59,11 @@
             {% if paginator.num_pages > 1 %}
                 <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin-top:20px;">
                     {% if livros.has_previous %}
-                        <a href="?page=1" style="padding:8px 12px; border:1px solid #ddd; border-radius:4px; color:#007bff; text-decoration:none;">&laquo; Primeira</a>
-                        <a href="?page={{ livros.previous_page_number }}" style="padding:8px 12px; border:1px solid #ddd; border-radius:4px; color:#007bff; text-decoration:none;">← Anterior</a>
+                        <a href="?page=1" style="padding:8px 12px; border:1px solid #ddd; border-radius:4px; color:#007bff; text-decoration:none;">&laquo; {% trans "Primeira" %}</a>
+                        <a href="?page={{ livros.previous_page_number }}" style="padding:8px 12px; border:1px solid #ddd; border-radius:4px; color:#007bff; text-decoration:none;">← {% trans "Anterior" %}</a>
                     {% else %}
-                        <span style="padding:8px 12px; border:1px solid #ddd; border-radius:4px; color:#ccc;">&laquo; Primeira</span>
-                        <span style="padding:8px 12px; border:1px solid #ddd; border-radius:4px; color:#ccc;">← Anterior</span>
+                        <span style="padding:8px 12px; border:1px solid #ddd; border-radius:4px; color:#ccc;">&laquo; {% trans "Primeira" %}</span>
+                        <span style="padding:8px 12px; border:1px solid #ddd; border-radius:4px; color:#ccc;">← {% trans "Anterior" %}</span>
                     {% endif %}
 
                     {% for num in paginator.page_range %}
@@ -74,17 +75,17 @@
                     {% endfor %}
 
                     {% if livros.has_next %}
-                        <a href="?page={{ livros.next_page_number }}" style="padding:8px 12px; border:1px solid #ddd; border-radius:4px; color:#007bff; text-decoration:none;">Próxima →</a>
-                        <a href="?page={{ paginator.num_pages }}" style="padding:8px 12px; border:1px solid #ddd; border-radius:4px; color:#007bff; text-decoration:none;">Última &raquo;</a>
+                        <a href="?page={{ livros.next_page_number }}" style="padding:8px 12px; border:1px solid #ddd; border-radius:4px; color:#007bff; text-decoration:none;">{% trans "Próxima" %} →</a>
+                        <a href="?page={{ paginator.num_pages }}" style="padding:8px 12px; border:1px solid #ddd; border-radius:4px; color:#007bff; text-decoration:none;">{% trans "Última" %} &raquo;</a>
                     {% else %}
-                        <span style="padding:8px 12px; border:1px solid #ddd; border-radius:4px; color:#ccc;">Próxima →</span>
-                        <span style="padding:8px 12px; border:1px solid #ddd; border-radius:4px; color:#ccc;">Última &raquo;</span>
+                        <span style="padding:8px 12px; border:1px solid #ddd; border-radius:4px; color:#ccc;">{% trans "Próxima" %} →</span>
+                        <span style="padding:8px 12px; border:1px solid #ddd; border-radius:4px; color:#ccc;">{% trans "Última" %} &raquo;</span>
                     {% endif %}
                 </div>
             {% endif %}
         {% else %}
             <div style="background:#e7f3ff; padding:16px; border-left:4px solid #007bff; border-radius:4px;">
-                ℹ️ Nenhum livro encontrado. Rode o comando para gerar dados!
+                ℹ️ {% trans "Nenhum livro encontrado. Rode o comando para gerar dados!" %}
             </div>
         {% endif %}
     </section>

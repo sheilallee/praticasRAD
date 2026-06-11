@@ -1,6 +1,7 @@
 {% extends 'blog/base.html' %}
+{% load i18n %}
 
-{% block title %}Cadastro{% endblock %}
+{% block title %}{% trans "Cadastro" %}{% endblock %}
 
 {% block content %}
     <style>
@@ -25,7 +26,7 @@
     </style>
     
     <section style="max-width: 520px; margin: 2rem auto; background:#fff; padding:2rem; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.08);">
-        <h1>Cadastrar Usuário</h1>
+        <h1>{% trans "Cadastrar Usuário" %}</h1>
         
         {% if messages %}
             {% for message in messages %}
@@ -38,7 +39,7 @@
             
             <!-- Campo Username -->
             <div style="margin-bottom:1.5rem;">
-                <label for="{{ form.username.id_for_label }}" style="display:block; font-weight:bold;">Usuário</label>
+                <label for="{{ form.username.id_for_label }}" style="display:block; font-weight:bold;">{% trans "Usuário" %}</label>
                 {{ form.username }}
                 {% if form.username.errors %}
                     <div style="color:#c00; font-size:0.9rem; margin-top:0.5rem;">
@@ -51,7 +52,7 @@
             
             <!-- Campo Password -->
             <div style="margin-bottom:1.5rem;">
-                <label for="{{ form.password1.id_for_label }}" style="display:block; font-weight:bold;">Senha</label>
+                <label for="{{ form.password1.id_for_label }}" style="display:block; font-weight:bold;">{% trans "Senha" %}</label>
                 {{ form.password1 }}
                 {% if form.password1.errors %}
                     <div style="color:#c00; font-size:0.9rem; margin-top:0.5rem;">
@@ -67,7 +68,7 @@
             
             <!-- Campo Password Confirmation -->
             <div style="margin-bottom:1.5rem;">
-                <label for="{{ form.password2.id_for_label }}" style="display:block; font-weight:bold;">Confirmar Senha</label>
+                <label for="{{ form.password2.id_for_label }}" style="display:block; font-weight:bold;">{% trans "Confirmar Senha" %}</label>
                 {{ form.password2 }}
                 {% if form.password2.errors %}
                     <div style="color:#c00; font-size:0.9rem; margin-top:0.5rem;">
@@ -87,8 +88,8 @@
                 </div>
             {% endif %}
             
-            <button type="submit" style="padding:10px 18px; background:#28a745; color:#fff; border:none; border-radius:6px; cursor:pointer; font-weight:bold; width:100%;">Cadastrar</button>
+            <button type="submit" style="padding:10px 18px; background:#28a745; color:#fff; border:none; border-radius:6px; cursor:pointer; font-weight:bold; width:100%">{% trans "Cadastrar" %}</button>
         </form>
-        <p style="margin-top:1rem; text-align:center;">Já tem conta? <a href="{% url 'login' %}">Entrar aqui</a></p>
+        <p style="margin-top:1rem; text-align:center;">{% trans "Já tem conta?" %} <a href="{% url 'login' %}">{% trans "Entrar aqui" %}</a></p>
     </section>
 {% endblock %}
